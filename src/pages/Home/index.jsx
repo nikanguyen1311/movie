@@ -40,7 +40,7 @@ const HomePage = () => {
 
     return (
         <>
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center", padding: '20px' }}>
                 {/* list 1 */}
                 <div style={{ marginBottom: "40px" }}>
                     <div>
