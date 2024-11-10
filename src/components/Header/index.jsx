@@ -76,7 +76,7 @@ const Headers = () => {
                 </Menu>
 
                 {/* Search Bar */}
-                <Search
+                {/* <Search
                     placeholder="Tìm kiếm phim..."
                     onSearch={onSearch}
                     style={{
@@ -84,7 +84,7 @@ const Headers = () => {
                         margin: "0 20px",
                         marginTop: "15px",
                     }}
-                />
+                /> */}
 
                 {/* Button mở Drawer cho mobile */}
                 <div

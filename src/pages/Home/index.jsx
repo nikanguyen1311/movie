@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "antd";
+import { Spin, Typography } from "antd";
 import add from "../../assets/img/add.jpg";
 import "./index.css";
 import MovieList from "../../components/MovieList";
@@ -10,6 +10,7 @@ const HomePage = () => {
     const [movieList1, setMovieList1] = useState([]);
     const [movieList2, setMovieList2] = useState([]);
     const [movieList3, setMovieList3] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         (async function() {
@@ -37,6 +38,20 @@ const HomePage = () => {
     useEffect(() => {
         document.title = "Trang chủ phim";
     }, []);
+
+    useEffect(() => {
+        if (movieList1?.length > 0 && movieList2?.length > 0 && movieList3?.length > 0) {
+            setIsLoading(false); 
+        }
+    }, [movieList1, movieList2, movieList3]);
+
+    if (isLoading) {
+        return (
+            <div style={{ textAlign: "center", padding: '20px' }}>
+                <Spin tip="Đang tải phim..." size="large" />
+            </div>
+        );
+    }
 
     return (
         <>

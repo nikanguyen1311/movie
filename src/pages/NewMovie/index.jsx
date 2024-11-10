@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Carousel, Card, Button, Col, Row, Image, Typography } from "antd";
+import { Carousel, Card, Button, Col, Row, Image, Typography, Skeleton } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import add from "../../assets/img/add.jpg";
 import { Link } from "react-router-dom";
+import LazyLoad from "react-lazy-load";
 import './index.css';
 
 const { Meta } = Card;
@@ -150,13 +151,21 @@ const NewMovie = () => {
                                 style={{ textDecoration: 'none', width: '100%' }}
                             >
                                 <div className="image-container" style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
-                                    <Image
-                                        className="scalable-image"
-                                        preview={false}
-                                        src={`https://img.ophim.live/uploads/movies/${value.thumb_url}`}
-                                        alt={value.name}
-                                        style={{ width: '100%', height: 'auto' }}
-                                    />
+                                    <LazyLoad
+                                        height={200}
+                                        offset={100}
+                                        placeholder={<Skeleton.Image />}
+                                        debounce={300} 
+                                    >
+                                        <Image
+                                            className="scalable-image"
+                                            preview={false}
+                                            src={`https://img.ophim.live/uploads/movies/${value.thumb_url}`}
+                                            alt={value.name}
+                                            style={{ width: '100%', height: 'auto' }}
+                                            loading="lazy"
+                                        />
+                                    </LazyLoad>
                                 </div>
                                 <Title className="title" level={5} style={{ margin: '10px 0', color: '#fff', textAlign: 'center' }}>
                                     {value?.name}
