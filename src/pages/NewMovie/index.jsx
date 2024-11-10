@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Carousel, Card, Button, Col, Row, Image, Typography, Skeleton } from "antd";
+import { Carousel, Card, Button, Col, Row, Image, Typography, Skeleton, Spin } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import add from "../../assets/img/add.jpg";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ const NewMovie = () => {
     const [numColumns, setNumColumns] = useState(3); 
     const carouselRef = useRef();
     const [newMovies, setNewMovies] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let page = 1;
@@ -77,6 +78,20 @@ const NewMovie = () => {
         return groupedMovies;
     };
 
+    useEffect(() => {
+        if (newMovies?.length > 0) {
+            setIsLoading(false); 
+        }
+    }, [newMovies]);
+
+    if (isLoading) {
+        return (
+            <div style={{ textAlign: "center", padding: '20px' }}>
+                <Spin tip="Đang tải phim..." size="large" />
+            </div>
+        );
+    }
+
     return (
         <div style={{ padding: "20px", marginTop: '100px', textAlign: 'center' }}>
             {isMobile ? (
@@ -103,13 +118,21 @@ const NewMovie = () => {
                                                 style={{ textDecoration: 'none', width: '100%' }}
                                             >
                                                 <div className="image-container" style={{ width: '100%', position: 'relative', overflow: 'hidden'}}>
-                                                    <Image
-                                                        className="scalable-image"
-                                                        preview={false}
-                                                        src={`https://img.ophim.live/uploads/movies/${movie.thumb_url}`}
-                                                        alt={movie.name}
-                                                        style={{ width: '100%', height: 'auto' }}
-                                                    />
+                                                    <LazyLoad
+                                                        height={200}
+                                                        offset={100}
+                                                        placeholder={<Skeleton.Image />}
+                                                        debounce={300} 
+                                                    > 
+                                                        <Image
+                                                            className="scalable-image"
+                                                            preview={false}
+                                                            src={`https://img.ophim.live/uploads/movies/${movie.thumb_url}`}
+                                                            alt={movie.name}
+                                                            style={{ width: '100%', height: 'auto' }}
+                                                            loading="lazy"
+                                                        />
+                                                    </LazyLoad>
                                                 </div>
                                                 <Title className="title" level={5} style={{ margin: '10px 0', color: '#fff', textAlign: 'center' }}>
                                                     {movie?.name}
