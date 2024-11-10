@@ -86,6 +86,7 @@ const WatchMovie = () => {
                                     frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture fullscreen; orientation-lock"
                                     allowFullScreen
+                                    loading="lazy"
                                 ></iframe>
                             </div>
                         </div>

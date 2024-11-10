@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Button, Drawer, Input } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import "./index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -10,6 +10,7 @@ const { Search } = Input;
 const Headers = () => {
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const showDrawer = () => {
         setVisible(true);
@@ -24,6 +25,10 @@ const Headers = () => {
             navigate(`/search?query=${value}`);
         }
     };
+
+    useEffect(() => {
+        setVisible(false);
+    }, [location]);
 
     return (
         <Layout>
