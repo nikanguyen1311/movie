@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Layout, Button, Typography } from "antd";
+import { Layout, Button, Typography, Card } from "antd";
 import MovieList from "../../components/MovieList";
 
 const { Content } = Layout;
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const WatchMovie = () => {
     const { slug } = useParams();
     const [movieWatch, setMovieWatch] = useState(null);
     const [title, setTitle] = useState(null);   
+    const [description, setDescription] = useState(null);
     const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
     const [movieListWatch, setMovieListWatch] = useState([]);
 
@@ -39,6 +40,7 @@ const WatchMovie = () => {
                 const response = await axios.get(`https://ophim1.com/phim/${slug}`);
                 setMovieWatch(response?.data?.episodes || []); 
                 setTitle(response?.data?.movie?.name);
+                setDescription(response?.data?.movie?.content);
             } catch (error) {
                 console.error("Có lỗi xảy ra khi lấy dữ liệu chi tiết phim:", error);
             }
@@ -128,6 +130,20 @@ const WatchMovie = () => {
                             </Button>
                         ))}
                     </div>
+
+                    {/* Mô tả phim */}
+                    <Layout style={{ backgroundColor: '#212f3c'}}>
+                        <Content style={{ padding: "20px" }}>
+                            <Card>
+                                <Paragraph>
+                                    <strong level={5}>Mô tả: </strong>
+                                    <span
+                                        dangerouslySetInnerHTML={{ __html: description || '' }}
+                                    />
+                                </Paragraph>
+                            </Card>
+                        </Content>
+                    </Layout>
                 </div>
 
                 <Title level={3} style={{ color: '#fff', marginBottom: '30px' }}>Có thể bạn cũng muốn xem</Title>

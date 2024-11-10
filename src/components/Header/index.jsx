@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Layout, Menu, Button, Drawer } from "antd";
+import { Layout, Menu, Button, Drawer, Input } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Header } = Layout;
+const { Search } = Input;
 
 const Headers = () => {
     const [visible, setVisible] = useState(false);
+    const navigate = useNavigate();
 
     const showDrawer = () => {
         setVisible(true);
@@ -15,6 +17,12 @@ const Headers = () => {
 
     const onClose = () => {
         setVisible(false);
+    };
+
+    const onSearch = (value) => {
+        if (value) {
+            navigate(`/search?query=${value}`);
+        }
     };
 
     return (
@@ -66,6 +74,17 @@ const Headers = () => {
                         <Link to="/countries">Quốc Gia</Link>
                     </Menu.Item>
                 </Menu>
+
+                {/* Search Bar */}
+                <Search
+                    placeholder="Tìm kiếm phim..."
+                    onSearch={onSearch}
+                    style={{
+                        maxWidth: 200,
+                        margin: "0 20px",
+                        marginTop: "15px",
+                    }}
+                />
 
                 {/* Button mở Drawer cho mobile */}
                 <div
