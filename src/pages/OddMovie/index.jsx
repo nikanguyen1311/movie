@@ -5,48 +5,43 @@ import { Link } from "react-router-dom";
 import LazyLoad from "react-lazy-load";
 import './index.css';
 
-const { Meta } = Card;
 const { Title } = Typography;
 
-const NewMovie = () => {
+const OddMovie = () => {
     const [isMobile, setIsMobile] = useState(false);
-    const [numColumns, setNumColumns] = useState(3); 
+    const [numColumns, setNumColumns] = useState(3);
     const carouselRef = useRef();
-    const [newMovies, setNewMovies] = useState([]);
+    const [oddMovies, setOddMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isPageLoading, setIsPageLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 18;
 
     useEffect(() => {
-        let page = 1;
-    
+        let page = 3;
+
         const fetchMovies = async () => {
             const url = `https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=${page}`;
-    
+
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                setNewMovies(data.items);
+                setOddMovies(data.items);
             } catch (err) {
                 console.log("Error fetching data:", err);
             }
         };
-    
+
         fetchMovies();
-    
+
         const interval = setInterval(() => {
             page += 1;
-            fetchMovies(); 
+            fetchMovies();
         }, 43200000);
 
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        document.title = "Phim mới";
-    }, []);
-    
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 480) {
@@ -67,6 +62,10 @@ const NewMovie = () => {
         };
     }, []);
 
+    useEffect(() => {
+        document.title = "Phim lẻ";
+    }, []);
+
     const next = () => {
         carouselRef.current.next();
     };
@@ -77,17 +76,17 @@ const NewMovie = () => {
 
     const renderMoviesInGroups = () => {
         const groupedMovies = [];
-        for (let i = 0; i < newMovies.length; i += numColumns) {
-            groupedMovies.push(newMovies.slice(i, i + numColumns));
+        for (let i = 0; i < oddMovies.length; i += numColumns) {
+            groupedMovies.push(oddMovies.slice(i, i + numColumns));
         }
         return groupedMovies;
     };
 
     useEffect(() => {
-        if (newMovies?.length > 0) {
+        if (oddMovies?.length > 0) {
             setIsLoading(false); 
         }
-    }, [newMovies]);
+    }, [oddMovies]);
 
     const handlePageChange = (page) => {
         setIsPageLoading(true); 
@@ -96,7 +95,7 @@ const NewMovie = () => {
     };
 
     const startIndex = (currentPage - 1) * pageSize;
-    const currentMovies = newMovies.slice(startIndex, startIndex + pageSize);
+    const currentMovies = oddMovies.slice(startIndex, startIndex + pageSize);
 
     if (isLoading) {
         return (
@@ -107,7 +106,9 @@ const NewMovie = () => {
     }
 
     return (
-        <div style={{ padding: "20px", marginTop: '100px', textAlign: 'center' }}>
+        <div
+            style={{ padding: "20px", marginTop: "100px", textAlign: "center" }}
+        >
             {isMobile ? (
                 <div style={{ position: "relative" }}>
                     <Button
@@ -193,7 +194,7 @@ const NewMovie = () => {
                                         className="image-link"
                                         style={{ textDecoration: 'none', width: '100%' }}
                                     >
-                                        <div className="image-container" style={{ width: '100%', position: 'relative', overflow: 'hidden' }}>
+                                        <div className="image-container">
                                             <LazyLoad
                                                 height={200}
                                                 offset={100}
@@ -222,7 +223,7 @@ const NewMovie = () => {
                     <Pagination
                         current={currentPage}
                         pageSize={pageSize}
-                        total={newMovies.length}
+                        total={oddMovies.length}
                         onChange={handlePageChange}
                         className="pagination-container"
                     />
@@ -232,4 +233,4 @@ const NewMovie = () => {
     );
 };
 
-export default NewMovie;
+export default OddMovie;

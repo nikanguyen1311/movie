@@ -5,6 +5,7 @@ import HomePage from '../pages/Home/index.jsx';
 import DetailMovie from '../pages/Detail';
 import WatchMovie from '../pages/WatchMovie';
 import NewMovie from '../pages/NewMovie';
+import OddMovie from '../pages/OddMovie';
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
             {
                 path: '/new-movie',
                 element: <NewMovie/>
+            },
+            {
+                path: '/odd-movie',
+                element: <OddMovie/>
             }
         ]
     }

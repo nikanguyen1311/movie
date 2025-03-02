@@ -10,7 +10,8 @@ const Layouts = () => {
     const hideBanner =
         location.pathname.includes("/detail-movie") ||
         location.pathname.includes("/watch-movie") ||
-        location.pathname.includes("/new-movie");
+        location.pathname.includes("/new-movie") ||
+        location.pathname.includes("/odd-movie");
 
     return (
         <div>

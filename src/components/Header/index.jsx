@@ -26,6 +26,23 @@ const Headers = () => {
         }
     };
 
+    const getSelectedKey = () => {
+        switch (location.pathname) {
+            case "/":
+                return "1";
+            case "/new-movie":
+                return "2";
+            case "/odd-movie":
+                return "3";
+            case "/categories":
+                return "4";
+            case "/countries":
+                return "5";
+            default:
+                return "1";
+        }
+    };
+
     useEffect(() => {
         setVisible(false);
     }, [location]);
@@ -55,7 +72,7 @@ const Headers = () => {
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={["1"]}
+                    selectedKeys={[getSelectedKey()]}
                     style={{
                         display: "flex",
                         flex: 1,
@@ -70,7 +87,7 @@ const Headers = () => {
                         <Link to="/new-movie">Phim Mới</Link>
                     </Menu.Item>
                     <Menu.Item key="3">
-                        <Link to="#!">Phim Lẻ</Link>
+                        <Link to="/odd-movie">Phim Lẻ</Link>
                     </Menu.Item>
                     <Menu.Item key="4">
                         <Link to="/categories">Thể Loại</Link>
